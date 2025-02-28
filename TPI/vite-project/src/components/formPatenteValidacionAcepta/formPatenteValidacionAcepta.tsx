@@ -111,7 +111,7 @@ function FormPatenteValidacionAcepta({ idPatente }: formValidacionAceptaProps) {
             tipoHechizo: selectedTipoHechizo, // Solo el tipo de hechizo seleccionado
             Etiquetas: selectedEtiquetas,
             restringido,
-            empleado: currentUser
+            empleado: currentUser.id
         };
 
         try {
