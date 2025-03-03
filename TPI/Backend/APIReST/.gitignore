@@ -1,0 +1,6 @@
+#Ingoro las variables de ambiente
+.env
+.env.*
+
+#Ignoro los node modules
+node_modules/

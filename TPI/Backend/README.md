@@ -59,4 +59,4 @@ Finalmente, para iniciar el servidor que contiene a la API, ejecute:
 
 o:
 
-`pnpm start dev`
+`pnpm start:dev`

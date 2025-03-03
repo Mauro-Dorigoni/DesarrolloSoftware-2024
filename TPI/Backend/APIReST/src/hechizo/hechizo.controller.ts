@@ -14,7 +14,7 @@ async function findAll(req: AuthRequest, res: Response) {
         //Protejo los datos sensibles en base al usuario que los pide
         const magoExistente: Magos | null = validateUser(req);
         if (!magoExistente) {
-            return res.status(401).json({ message: "No autenticado" });
+            return res.status(401).json({ message: "Not authenticated" });
         }
         let hechizosFiltrados = hechizos;
         if (!magoExistente.isEmpleado) {
@@ -50,7 +50,7 @@ async function getAvailableForVisualizacion(req:AuthRequest, res:Response) {
     try {
         const magoExistente: Magos | null = validateUser(req);
         if (!magoExistente) {
-            return res.status(401).json({ message: "No autenticado" });
+            return res.status(401).json({ message: "Not authenticated" });
         }
         const hechizos = await em.find(Hechizo, {}, {populate:['nombre' , 'descripcion', 'instrucciones','solicitudes', 'restringido', 'patente','patente.tipo_hechizo','patente.mago', 'patente.etiquetas']});
         const hechizosFiltrados = hechizos.filter(h => {
@@ -76,7 +76,7 @@ async function getAvailableForVisualizacion(req:AuthRequest, res:Response) {
             nombre: h.nombre,
             restringido: h.restringido
         }));  // Mapeo solo el id y nombre para evitar enviar datos sensibles  
-        res.status(200).json({ message: "Hechizos disponibles", data: hechizosFiltrados });
+        res.status(200).json({ message: "Hechizos available", data: hechizosFiltrados });
     } catch (error:any) {
         res.status(500).json({ message: error.message });
     }
@@ -86,7 +86,7 @@ async function findPermitedForUser(req:AuthRequest, res:Response) {
     try {
         const magoExistente: Magos | null = validateUser(req);
         if (!magoExistente) {
-            return res.status(401).json({ message: "No autenticado" });
+            return res.status(401).json({ message: "Not authenticated" });
         }
         let hechizosPermitidos = null;
         //si es empleado, el usuario puede visualizar todos los hechizos
@@ -101,7 +101,7 @@ async function findPermitedForUser(req:AuthRequest, res:Response) {
                 ]
             }, {fields: ['id']})
         }
-        res.status(200).json({message: "Hechizos que el usuario puede visualizar", data: hechizosPermitidos})
+        res.status(200).json({message: "Hechizos that the user can visulize", data: hechizosPermitidos})
     } catch (error:any) {
         res.status(500).json({ message: error.message });
     }

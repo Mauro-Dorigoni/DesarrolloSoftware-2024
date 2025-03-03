@@ -8,9 +8,15 @@
 - 49453 - Gelmetti Lucia
 - 41324 - Gimenez Ulises
 
+Se les extiende un sentido agradecimiento por su apoyo tecnico y moral a las siguientes personas:
+
+- Fausto Leoni
+- Juan Cruz D'Amor
+- Victoria Peinado
+
 ### Repositorios
 
-- [full app](https://github.com/Mauro-Dorigoni/DesarrolloSoftware-2024/tree/af91a16a6a4e9c87ab9a845ee4f4773c048d2055/TPI)
+- [full app](https://github.com/Mauro-Dorigoni/DesarrolloSoftware-2024/tree/main/TPI)
 
 ## Tema
 

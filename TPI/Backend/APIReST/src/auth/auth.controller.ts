@@ -38,17 +38,17 @@ export const register = async (req: Request, res: Response) => {
       institucion: req.body.institucion
     });
     await em.persistAndFlush(newUser);
-    return res.status(201).json({ message: "Usuario creado." });
+    return res.status(201).json({ message: "User Created." });
   } catch (err) {
-    return res.status(500).json({ message: "Error en el servidor", error: err });
+    return res.status(500).json({ message: "Server Error", error: err });
   }
 };
 
 export const login = [
   //agregué validaciones con express-validator
   //NO cambiar el mínimo de longitud de la pass porque hay usuarios con 5 letras
-  body("email").isEmail().withMessage("Debe ser un email válido").normalizeEmail(),
-  body("pass").isLength({ min: 4}).withMessage("La contraseña debe tener al menos 4 caracteres"),
+  body("email").isEmail().withMessage("Must be a valid email").normalizeEmail(),
+  body("pass").isLength({ min: 4}).withMessage("Password must be at least 4 charachters long"),
   async (req: Request, res: Response) => {
     const em = orm.em.fork();
     const errors = validationResult(req);
@@ -62,10 +62,10 @@ export const login = [
       const user = await em.findOne(Magos, { email });
       //comparar las contraseñas
       if (!user || !bcrypt.compareSync(pass, user.pass)) {
-        return res.status(401).json({ message: "Credenciales inválidas" });
+        return res.status(401).json({ message: "Invalid Credentials" });
       }
       if (!user.id) {
-        return res.status(500).json({ message: "Error: ID de usuario no encontrado." });
+        return res.status(500).json({ message: "Error: User ID not found" });
       }
       //generar token
       const token = generateToken(user.id);
@@ -79,7 +79,7 @@ export const login = [
         maxAge: 3600000 // 1 hora
       }).status(200).json({ user: userData });
     } catch (err) {
-      return res.status(500).json({ message: "Error en el servidor" });
+      return res.status(500).json({ message: "Server Error" });
     }
   }
 ];
@@ -90,22 +90,22 @@ export const logout = (req: Request, res: Response) => {
     httpOnly: true,
   secure: process.env.NODE_ENV === 'production',
   sameSite: process.env.NODE_ENV === 'production' ? 'strict' : 'lax',
-  }).status(200).json({ message: "Sesión cerrada." });
+  }).status(200).json({ message: "Session closed" });
 };
 
 //validar la sesión (para que el frontend sepa si hay una sesión activa)
 export const validateSession = async (req: Request, res: Response) => {
   try {
     const token = req.cookies.accessToken;
-    if (!token) return res.status(401).json({ message: "No autenticado" });
+    if (!token) return res.status(401).json({ message: "Not authenticated" });
     const decoded = jwt.verify(token, process.env.JWT_SECRET!) as { id: number };
     const em = orm.em.fork();
     const user = await em.findOne(Magos, { id: decoded.id });
-    if (!user) return res.status(404).json({ message: "Usuario no encontrado" });
+    if (!user) return res.status(404).json({ message: "User not found" });
     const { pass, ...userData } = user;
     return res.status(200).json({ user: userData });
   } catch (err) {
-    return res.status(401).json({ message: "Token inválido o expirado" });
+    return res.status(401).json({ message: "Invalid or expired Token" });
   }
 };
 
@@ -114,10 +114,10 @@ export const updateUser = async (req: Request, res: Response) => {
   try {
     //extraer token de la cookie y verificarlo para obtener id del usuario
     const token = req.cookies.accessToken;
-    if (!token) return res.status(401).json({ message: "No autenticado" });
+    if (!token) return res.status(401).json({ message: "Not authenticated" });
     const decoded = jwt.verify(token, process.env.JWT_SECRET!) as { id: number };
     const user = await em.findOne(Magos, { id: decoded.id });
-    if (!user) return res.status(404).json({ message: "Usuario no encontrado." });
+    if (!user) return res.status(404).json({ message: "User not found" });
 
     //atualizar sólo campos permitidos
     user.nombre = req.body.nombre || user.nombre;
@@ -135,9 +135,9 @@ export const updateUser = async (req: Request, res: Response) => {
 
     await em.persistAndFlush(user);
     const { pass, ...userData } = user;
-    return res.status(200).json({ message: "Información actualizada.", user: userData });
+    return res.status(200).json({ message: "Info updated", user: userData });
   } catch (err) {
-    return res.status(500).json({ message: "Error en el servidor", error: err });
+    return res.status(500).json({ message: "Server error", error: err });
   }
 };
 
@@ -146,7 +146,7 @@ export const updateUser = async (req: Request, res: Response) => {
 export const authMiddleware = async (req: AuthRequest, res: Response, next: NextFunction) => {
   try {
     const token = req.cookies.accessToken;
-    if (!token) return res.status(401).json({ message: "No authenticated iser" });
+    if (!token) return res.status(401).json({ message: "No authenticated user" });
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET!) as { id: number };
     const em = orm.em.fork();

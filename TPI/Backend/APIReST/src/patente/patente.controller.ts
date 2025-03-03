@@ -56,10 +56,10 @@ async function findByMago(req: AuthRequest, res:Response){
     try {
         const magoExistente: Magos | null = validateUser(req);
         if (!magoExistente) {
-            return res.status(401).json({ message: "No autenticado" });
+            return res.status(401).json({ message: "Not authenticated" });
         }
         const patentes = await em.find(Patente,{ mago: magoExistente.id },{populate:['empleado','mago']})
-        res.status(200).json({ message: patentes.length === 0 ? "No hay patentes para este mago" : "Patentes encontradas", data: patentes });
+        res.status(200).json({ message: patentes.length === 0 ? "No patentes found for this user" : "Patentes found", data: patentes });
     } catch (error:any) {
         res.status(500).json({message:error.message})
     }
@@ -68,7 +68,7 @@ async function findByMago(req: AuthRequest, res:Response){
 async function findAllPending(req:Request, res:Response) {
     try {
         const patentesPendientes = await em.find(Patente, {estado: PatenteEstado.PENDIENTE_REVISION},{populate:['hechizos','empleado','mago','etiquetas','tipo_hechizo']});
-        res.status(200).json({ message: "Patentes pendientes de revisión encontradas", data: patentesPendientes });
+        res.status(200).json({ message: "Patentes pendientes de revisión found", data: patentesPendientes });
     } catch (error: any) {
         res.status(500).json({ message: error.message });
     }
@@ -82,7 +82,7 @@ async function add(req: AuthRequest, res:Response){
         // Verificar si el mago existe
         const magoExistente: Magos | null = validateUser(req);
         if (!magoExistente) {
-            return res.status(401).json({ message: "No autenticado" });
+            return res.status(401).json({ message: "Not autenticted" });
         }
 
         const imagen = req.file ? req.file.filename : null;
@@ -100,7 +100,7 @@ async function add(req: AuthRequest, res:Response){
         await em.flush();
         
         // Responder con la nueva patente creada
-        res.status(201).json({ message: "Patente creada correctamente", data: nuevaPatente });
+        res.status(201).json({ message: "Patente created", data: nuevaPatente });
     } catch (error: any) {
         res.status(500).json({ message: error.message });
     }
@@ -115,16 +115,16 @@ async function publish(req:AuthRequest, res:Response){
         const tipo_hechizo = await em.findOneOrFail(Tipo_Hechizo,{ id:idTH });
         const empleado: Magos | null = validateEmpleado(req);
         if (!empleado) {
-            return res.status(401).json({ message: "No autenticado" });
+            return res.status(401).json({ message: "Not authenticated" });
         }
 
         if (!patente) {
-            return res.status(404).json({ message: 'Patente no encontrada' });
+            return res.status(404).json({ message: 'Patente not found' });
         }
 
         // Verificar que el estado actual sea "pendiente_revision"
         if (patente.estado !== PatenteEstado.PENDIENTE_REVISION) {
-            return res.status(400).json({ message: 'La patente no está pendiente de revisión' });
+            return res.status(400).json({ message: 'The Patente is not pendiente_revision' });
         }
         // Actualizar el estado
         patente.estado = PatenteEstado.PUBLICADA;
@@ -148,9 +148,9 @@ async function publish(req:AuthRequest, res:Response){
         await em.persistAndFlush([patente,newHechizo]);
 
 
-        res.status(200).json({ message: 'Patente publicada y hechizo creado', data: patente });
+        res.status(200).json({ message: 'Patente published and Hechizo created', data: patente });
     } catch (error: any) {
-        res.status(500).json({ message: 'Hubo un problema al publicar la patente' });
+        res.status(500).json({ message: 'There was a problem publishing the Patente' });
     }
 }
 async function reject(req: AuthRequest, res: Response) {
@@ -159,12 +159,12 @@ async function reject(req: AuthRequest, res: Response) {
         const id = Number.parseInt(req.params.id);
         const patente = await em.findOneOrFail(Patente, { id }, { populate: ['hechizos', 'tipo_hechizo', 'empleado', 'mago', 'etiquetas'] });
         if (!patente) {
-            return res.status(404).json({ message: 'Patente no encontrada' });
+            return res.status(404).json({ message: 'Patente not found' });
         }
 
         // Verifica que el estado actual sea "pendiente_revision"
         if (patente.estado !== PatenteEstado.PENDIENTE_REVISION) {
-            return res.status(400).json({ message: 'La patente no está pendiente de revisión' });
+            return res.status(400).json({ message: 'The patente is not pendiente_revisión' });
         }
 
         const imageName = patente.imagen;
@@ -176,7 +176,7 @@ async function reject(req: AuthRequest, res: Response) {
             await new Promise<void>((resolve, reject) => {
                 fs.unlink(imagePath, (err) => {
                     if (err) {
-                        reject(new Error('Error al eliminar la imagen'));
+                        reject(new Error('Error in eliminating the image'));
                     } else {
                         resolve();
                     }
@@ -189,7 +189,7 @@ async function reject(req: AuthRequest, res: Response) {
         patente.motivo_rechazo = req.body.sanitizedInput.motivo_rechazo;
         const empleado: Magos | null = validateEmpleado(req);
         if (!empleado) {
-            return res.status(401).json({ message: "No autenticado" });
+            return res.status(401).json({ message: "Not authenticated" });
         }
         patente.empleado = empleado;
         patente.imagen=null;
@@ -197,10 +197,10 @@ async function reject(req: AuthRequest, res: Response) {
         // Actualiza en BD
         await em.persistAndFlush([patente]);
 
-        res.status(200).json({ message: 'Patente rechazada', data: patente });
+        res.status(200).json({ message: 'Patente rejected', data: patente });
 
     } catch (error: any) {
-        res.status(500).json({ message: 'Hubo un problema rechazando la patente' });
+        res.status(500).json({ message: 'there was a problem rejecting the patente' });
     }
 }
 
