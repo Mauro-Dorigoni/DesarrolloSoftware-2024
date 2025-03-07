@@ -401,4 +401,4 @@ hechizoRouter.get('/permitidos', authMiddleware, findPermitedForUser);
  *       500:
  *         description: Error en el servidor
  */
-hechizoRouter.get('/:id', findOne);
+hechizoRouter.get('/:id',authMiddleware, findOne);
