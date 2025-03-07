@@ -46,7 +46,7 @@ export default function FormVisualizacion() {
             } catch (error) {
                 setTipoError(ErrorTipo.HARD_ERROR);
                 setRecargaPagina(false);
-                setModalMessage('No se pudieron recuperar los Hechizos.\n' + error);
+                setModalMessage('No se pudieron recuperar los Hechizos.\n' + JSON.stringify(error));
                 setShowModal(true);
             }
         };
@@ -91,12 +91,12 @@ export default function FormVisualizacion() {
             setIsPopupVisible(false);
             setTipoError(ErrorTipo.SUCCESS);
             setRecargaPagina(true);
-            setModalMessage('Solicitud de visualización enviada con éxito.\n' + JSON.stringify(response.data));
+            setModalMessage('Solicitud de visualización enviada con éxito.\n' + JSON.stringify(response.data.message));
             setShowModal(true);
         } catch (error) {
             setTipoError(ErrorTipo.SOFT_ERROR);
             setRecargaPagina(true);
-            setModalMessage('Hubo un error al enviar la solicitud.\n' + error);
+            setModalMessage('Hubo un error al enviar la solicitud.\n' + JSON.stringify(error));
             setShowModal(true);
         }
     };

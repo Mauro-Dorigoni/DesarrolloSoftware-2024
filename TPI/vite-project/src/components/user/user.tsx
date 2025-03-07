@@ -16,6 +16,7 @@ const User: React.FC = () => {
   const [tipoError, setTipoError] = useState<ErrorTipo | null>(null);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [itemToDelete, setItemToDelete] = useState<number | null>(null);
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
   const [recargaPagina, setRecargaPagina] = useState(false)
   const [modalMessage, setModalMessage] = useState('');
   //modo edición/visualización
@@ -104,6 +105,9 @@ const User: React.FC = () => {
     }
   };
 
+  const logoutConfirmation = () => {
+    setShowLogoutModal(true);
+  }
   //cerrar sesión y redirigir al login
   const handleLogout = () => {
     logout();
@@ -173,7 +177,7 @@ const User: React.FC = () => {
         )}
       </div>
       <div className='red-buttons'>
-        <button onClick={handleLogout} className='logout-button'>Logout</button>
+        <button onClick={logoutConfirmation} className='logout-button'>Logout</button>
         <button onClick={() => currentUser && promptDelete(currentUser.id)} className="delete-user"disabled={!currentUser}>Eliminar</button>
       </div>
       {showConfirmationModal && (
@@ -183,6 +187,15 @@ const User: React.FC = () => {
               onCancel={() => {
                   setShowConfirmationModal(false);
                   setItemToDelete(null);
+              }}
+          />
+      )}
+      {showLogoutModal && (
+          <ConfirmationModal
+              message="¿Estás seguro de que querés cerrar sesion?"
+              onConfirm={handleLogout}
+              onCancel={() => {
+                  setShowLogoutModal(false);
               }}
           />
       )}

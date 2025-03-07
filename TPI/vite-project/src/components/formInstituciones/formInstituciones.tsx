@@ -43,7 +43,7 @@ const FormInstitucion: React.FC = () => {
 
             setTipoError(ErrorTipo.SUCCESS);
             setRecargaPagina(true);
-            setModalMessage('Registro de Institucion Exitoso.\n'+response.data);
+            setModalMessage('Registro de Institucion Exitoso.\n'+response.data.message);
             setShowModal(true);
         } catch (error) {
             setTipoError(ErrorTipo.SOFT_ERROR);

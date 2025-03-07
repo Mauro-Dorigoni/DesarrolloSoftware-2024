@@ -66,7 +66,7 @@ const FormPatente: React.FC = () => {
             
             setTipoError(ErrorTipo.SUCCESS);
             setRecargaPagina(true);
-            setModalMessage('Registro de Patente exitoso.\n'+response.data);
+            setModalMessage('Registro de Patente exitoso.\n'+response.data.message);
             setShowModal(true);
         } catch (error) {
             setTipoError(ErrorTipo.SOFT_ERROR);
