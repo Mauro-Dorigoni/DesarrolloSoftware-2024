@@ -2,8 +2,8 @@ import { app } from "../src/app.js";
 import request from 'supertest';
 
 
-describe("Deberia reflejar la adicion de una institucion y luego de un mago perteneciente a esta", () => {
-  it("Deberia dar de alta la institucion y el mago correctamente", async () => {
+describe("Deberia reflejar la adicion de una institucion y luego de un mago perteneciente a esta y su posterior eliminacion", () => {
+  it("Deberia dar de alta la institucion y el mago correctamente y luego eliminarlos correctamente", async () => {
         const initialResponse = await request(app).get('/api/institucion')
         expect(initialResponse.status).toBe(200)
         const initialInstitucionesCount = initialResponse.body.data.length;
@@ -45,6 +45,14 @@ describe("Deberia reflejar la adicion de una institucion y luego de un mago pert
         const secondMagosLength = thirdMagosResponse.body.data.length;
         expect(secondMagosLength).toBe(initialMagosLength + 1);
 
+        const failDeleteInstitucionResponse = await request(app).delete(`/api/institucion/${secondResponse.body.data.id}`)
+        expect(failDeleteInstitucionResponse.status).toBe(500);
+
+        const deleteMagoResponse = await request(app).delete(`/api/magos/${secondMagosResponse.body.data.id}`);
+        expect(deleteMagoResponse.status).toBe(200);
+
+        const deleteInstitucionResponse = await request(app).delete(`/api/institucion/${secondResponse.body.data.id}`)
+        expect(deleteInstitucionResponse.status).toBe(200);
 
   });
 });

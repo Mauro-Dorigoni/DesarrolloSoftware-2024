@@ -4,6 +4,7 @@ import { Magos } from "../magos/magos.entity.js";
 import { Hechizo } from "./hechizo.entity.js";
 import { AuthRequest } from "../shared/types.js";
 import { validateUser } from "../shared/authFunctions.js";
+import { populate } from "dotenv";
 
 const em = orm.em;
 
@@ -37,8 +38,20 @@ async function findAll(req: AuthRequest, res: Response) {
 
 async function findOne(req: Request, res:Response){
     try{
-        const id = Number.parseInt(req.params.id)
-        const hechizo = await em.findOneOrFail(Hechizo,{id})
+        const id = Number.parseInt(req.params.id);
+        const hechizo = await em.findOneOrFail(Hechizo,{id}, {populate:['nombre' , 'descripcion', 'instrucciones','solicitudes', 'restringido', 'patente','patente.tipo_hechizo','patente.mago', 'patente.etiquetas']});
+        const magoExistente: Magos | null = validateUser(req);
+        if (!magoExistente) {
+            return res.status(401).json({ message: "Not authenticated" });
+        }
+        if(!magoExistente.isEmpleado && hechizo.restringido){
+            const tieneSolicitudAprobada = hechizo.solicitudes.getItems().some(s => s.mago.id === magoExistente.id && s.estado === 'aprobada');
+            const esCreadorDePatente = hechizo.patente?.mago.id === magoExistente.id;
+            if (!tieneSolicitudAprobada && !esCreadorDePatente) {
+                hechizo.instrucciones = "[REDACTED]",
+                hechizo.patente.instrucciones = "[REDACTED]";
+            }
+        }
         res.status(200).json({ message: 'found hechizo', data: hechizo });
     }catch(error:any){
         res.status(500).json({ message: error.message });
