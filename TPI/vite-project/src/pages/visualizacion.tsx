@@ -1,9 +1,7 @@
 import { useState, useContext, useEffect } from 'react';
 import Select from 'react-select';
 import axios from 'axios';
-import Navbar from "../components/navbar/navbar";
 import Inicio from '../components/inicio/inicio';
-import Footer from "../components/footer/footer";
 import Title from "../components/tilte/title";
 import './visualizacion.css';
 import backgroundImg from '../assets/inicio-visualizacion2.jpeg';
@@ -123,7 +121,6 @@ export default function VisualizacionPage() {
         }, [isDataLoading]);
     return (
         <div>
-            <Navbar />
             <Inicio
                 title="Solicitudes de Visualización"
                 subTitle="En esta sección, puedes solicitar acceso a las instrucciones de hechizos restringidos completando un formulario específico. Este proceso es necesario para acceder a información sobre hechizos que están sujetos a restricciones especiales. También podrás hacer un seguimiento del estado de tus solicitudes realizadas."
@@ -185,7 +182,6 @@ export default function VisualizacionPage() {
                     reloadOnClose={recargaPagina}
                 />
             )}
-            <Footer />
         </div>
     );
 }

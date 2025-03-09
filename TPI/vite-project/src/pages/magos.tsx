@@ -1,5 +1,3 @@
-import Navbar from "../components/navbar/navbar";
-import Footer from "../components/footer/footer";
 import './magos.css';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -61,7 +59,6 @@ const MagosPage: React.FC = () => {
 
     return (
         <>
-            <Navbar />
             <div className="magos-page">
             {isDataLoading ? (
                 <LoadingSpinner/>
@@ -111,7 +108,6 @@ const MagosPage: React.FC = () => {
                     />
                 )}
             </div>
-            <Footer />
         </>
     );
 };

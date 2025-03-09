@@ -1,5 +1,4 @@
-import Navbar from "../components/navbar/navbar";
-import Footer from "../components/footer/footer";
+
 import './tipoHechizo.css';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -123,7 +122,6 @@ const TipoHechizoPage: React.FC = () => {
 
     return (
         <>
-            <Navbar />
             <FormTipoHechizo />
             <div className="tipoHechizo-page">
                 {isDataLoading ? (
@@ -178,7 +176,6 @@ const TipoHechizoPage: React.FC = () => {
                     />
                 )}
             </div>
-            <Footer />
         </>
     );
 };

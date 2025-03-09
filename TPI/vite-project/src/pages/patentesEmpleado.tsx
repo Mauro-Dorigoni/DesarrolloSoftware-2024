@@ -1,6 +1,4 @@
-import Navbar from "../components/navbar/navbar";
 import Inicio from '../components/inicio/inicio';
-import Footer from "../components/footer/footer";
 import backgroundImg from '../assets/inicio-patentes.jpeg';
 import FormPatenteValidacionRechaza from "../components/formPatenteValidacionRechaza/formPatenteValidacionRechaza.tsx";
 import FormPatenteValidacionAcepta from "../components/formPatenteValidacionAcepta/formPatenteValidacionAcepta.tsx";
@@ -82,7 +80,6 @@ const PatentesEmpleadoPage: React.FC = () => {
 
     return (
          <div>
-            <Navbar />
             <Inicio
                 title="Gestion de solicitudes de Patentes"
                 subTitle="Aquí podrás supervisar, gestionar y aprobar solicitudes de patentes de hechizos únicos creados por los magos de todas las instituciones. Recuerda
@@ -131,7 +128,6 @@ const PatentesEmpleadoPage: React.FC = () => {
                     />
                 )}
             </div>
-            <Footer />
         </div>
     );
 }

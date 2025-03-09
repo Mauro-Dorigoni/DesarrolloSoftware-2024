@@ -1,5 +1,3 @@
-import Navbar from "../components/navbar/navbar";
-import Footer from "../components/footer/footer";
 import './instituciones.css';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -127,7 +125,6 @@ const InstitucionesPage: React.FC = () => {
 
     return (
         <>
-            <Navbar />
             <FormInstitucion />
             <div className="instituciones-page">
             {isDataLoading ? (
@@ -184,7 +181,6 @@ const InstitucionesPage: React.FC = () => {
                     />
                 )}
             </div>
-            <Footer />
         </>
     );
 };

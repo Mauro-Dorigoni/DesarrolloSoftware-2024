@@ -1,7 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import Navbar from "../components/navbar/navbar";
 import Inicio from '../components/inicio/inicio';
-import Footer from "../components/footer/footer";
 import backgroundImg from '../assets/inicio-patentes.jpeg';
 import FormPatente from "../components/formPatente/formPatente";
 import { AuthContext } from "../context/authContext.tsx";
@@ -121,7 +119,6 @@ useEffect(() => {
 
     return (
         <div>
-            <Navbar />
             <Inicio
                 title="Solicitudes de Patentes"
                 subTitle="Aquí puedes gestionar todas tus solicitudes de patentes de hechizos."
@@ -180,7 +177,6 @@ useEffect(() => {
                     />
                 )}
             </div>
-            <Footer />
         </div>
     );
 };

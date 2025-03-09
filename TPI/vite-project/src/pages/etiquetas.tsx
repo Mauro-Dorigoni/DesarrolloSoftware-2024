@@ -1,5 +1,4 @@
-import Navbar from "../components/navbar/navbar";
-import Footer from "../components/footer/footer";
+
 import './etiquetas.css';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -121,7 +120,6 @@ const EtiquetaPage: React.FC = () => {
 
     return (
         <>
-            <Navbar />
             <FormEtiqueta />
             <div className="etiqueta-page">
             {isDataLoading ? (
@@ -176,7 +174,6 @@ const EtiquetaPage: React.FC = () => {
                     />
                 )}
             </div>
-            <Footer />
         </>
     );
 };

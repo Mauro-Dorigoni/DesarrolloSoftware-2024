@@ -1,4 +1,3 @@
-import Navbar from "../components/navbar/navbar";
 import Inicio from '../components/inicio/inicio';
 import backgroundImg from '../assets/inicio-patentes.jpeg';
 import { AuthContext } from "../context/authContext.tsx";
@@ -10,7 +9,6 @@ import Title from "../components/tilte/title.tsx";
 import ModalMessage from "../components/modalMessage/modalMessage.tsx";
 import { ErrorTipo } from "../components/modalMessage/error.enum.tsx";
 import FormVisualizacionRechaza from "../components/formVisualizacionRechaza/formVisualizacionRechaza.tsx";
-import Footer from "../components/footer/footer";
 import FormVisualizacionAcepta from "../components/formVisualizacionAcepta/formVisualizacionAcepta.tsx";
 import LoadingSpinner from "../components/loadingSpinner/loadingSpinner.tsx";
 
@@ -79,7 +77,6 @@ const VisualizacionEmpleadoPage: React.FC = () => {
 
     return (
         <div>
-            <Navbar />
             <Inicio
                 title="Gestión de solicitudes de Visualización"
                 subTitle="Aquí podrás supervisar, gestionar y aprobar solicitudes de visualización de hechizos restringidos realizadas por magos de todas las instituciones. Recuerda realizar tus gestiones siempre en conformidad con las normas del Ministerio de Magia."
@@ -117,7 +114,6 @@ const VisualizacionEmpleadoPage: React.FC = () => {
                     />
                 )}
             </div>
-            <Footer />
         </div>
     );
 };
