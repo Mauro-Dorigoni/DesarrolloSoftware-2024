@@ -67,27 +67,27 @@ const App: React.FC = () => {
       <Router>
         <div>
           <Routes>
-            <Route path="/" element={<ProtectedRoute><Navbar/><InicioPage /><Footer/></ProtectedRoute>} />
+            <Route path="/" element={<ProtectedRoute><InicioPage /></ProtectedRoute>} />
             <Route path="/login" element={<LoginPage />} />
             <Route
               path="/hechizos"
-              element={<ProtectedRoute empleadoPage={<HechizosEmpleadoPage />}><Navbar/><HechizosPage /><Footer/></ProtectedRoute>}
+              element={<ProtectedRoute empleadoPage={<HechizosEmpleadoPage />}><HechizosPage /></ProtectedRoute>}
             />
             <Route
               path="/patentes"
-              element={<ProtectedRoute empleadoPage={<PatentesEmpleadoPage />}><Navbar/><PatentesPage /><Footer/></ProtectedRoute>}
+              element={<ProtectedRoute empleadoPage={<PatentesEmpleadoPage />}><PatentesPage /></ProtectedRoute>}
             />
             <Route
               path="/visualizacion"
-              element={<ProtectedRoute empleadoPage={<VisualizacionEmpleadoPage />}><Navbar/><VisualizacionPage /><Footer/></ProtectedRoute>}
+              element={<ProtectedRoute empleadoPage={<VisualizacionEmpleadoPage />}><VisualizacionPage /></ProtectedRoute>}
             />
-            <Route path="/user" element={<ProtectedRoute><Navbar/><UserPage /><Footer/></ProtectedRoute>} />
+            <Route path="/user" element={<ProtectedRoute><UserPage /></ProtectedRoute>} />
 
             {/* Rutas exclusivas para empleados */}
-            <Route path="/instituciones" element={<ProtectedRoute isEmpleadoOnly={true}><Navbar/><InstitucionesPage /><Footer/></ProtectedRoute>} />
+            <Route path="/instituciones" element={<ProtectedRoute isEmpleadoOnly={true}><InstitucionesPage /></ProtectedRoute>} />
             <Route path="/magos" element={<ProtectedRoute isEmpleadoOnly={true}><MagosPage /></ProtectedRoute>} />
-            <Route path="/etiquetas" element={<ProtectedRoute isEmpleadoOnly={true}><Navbar/><EtiquetasPage /><Footer/></ProtectedRoute>} />
-            <Route path="/tipo_hechizo" element={<ProtectedRoute isEmpleadoOnly={true}><Navbar/><TipoHechizoPage /><Footer/></ProtectedRoute>} />
+            <Route path="/etiquetas" element={<ProtectedRoute isEmpleadoOnly={true}><EtiquetasPage /></ProtectedRoute>} />
+            <Route path="/tipo_hechizo" element={<ProtectedRoute isEmpleadoOnly={true}><TipoHechizoPage /></ProtectedRoute>} />
 
             {/* Redirección para rutas no encontradas */}
             <Route path="*" element={<Navigate to="/" />} />
