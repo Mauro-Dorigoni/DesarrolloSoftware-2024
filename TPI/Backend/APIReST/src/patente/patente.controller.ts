@@ -45,8 +45,23 @@ function sanitizePatenteInput(req: Request, res: Response, next: NextFunction)
 }
 async function findAll(req: Request, res:Response){
     try {
-        const patentes = await em.find(Patente,{},{populate:['hechizos','empleado','mago','etiquetas','tipo_hechizo']})
-        res.status(200).json({message:"Found All Patentes", data:patentes})
+        const patentes = await em.find(Patente,{},{populate:['hechizos','empleado','mago','etiquetas','tipo_hechizo']});
+        //Proteccion de datos sensibles
+        let filteredPatentes = patentes;
+        const magoExistente: Magos | null = validateUser(req);
+        if (!magoExistente) {
+            return res.status(401).json({ message: "Not authenticated" });
+        }
+        if(!magoExistente.isEmpleado){
+            filteredPatentes = patentes.map(p => {
+                if(p.restringido && !(p.mago.id===magoExistente.id)){
+                    p.instrucciones = "[REDACTED]";
+                    return p;
+                }
+                return p;
+            })
+        }
+        res.status(200).json({message:"Found All Patentes", data:filteredPatentes})
     } catch (error:any) {
         res.status(500).json({message:error.message})
     }
